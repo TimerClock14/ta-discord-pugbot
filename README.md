@@ -138,6 +138,27 @@ Common issues:
   an issue like this, you may need to hand edit the migration. See here:
   https://alembic.sqlalchemy.org/en/latest/naming.html
 
+# Scripts
+
+## Soft Reset
+
+Recalculates the ratings of a queue region from the given start date (or all games if empty). 
+It resets all ratings to default rating (25 mu, 8.3 sigma).   
+The entire game history of the specified regions and queues is reprocessed in order.
+One of `--src-regions` and `--src-queues` must not be empty. Regions and queues are loaded case-sensitive!
+
+Unless `--store True` is explicitly specified the rating changes are only logged and not stored.
+The changed ratings are printed as a csv file into the log. 
+Only rated trueskill values are logged, though both rated and unrated trueskill is recalculated. 
+
+**Examples**
+`python ./scriptsv2/soft_reset.py --src-regions eu --from 2022-02-02T22:22 --target-region eu`  
+`python ./scriptsv2/soft_reset.py --src-regions eu na --src-queues gold masters --from 2020-01-01 --target-region gold --store True`
+
+It is recommended to shut down the bot during reprocessing while there is no game running.  
+If this is not the case the behaviour is undefined.
+
+
 # Bugs
 
 # To-do list
