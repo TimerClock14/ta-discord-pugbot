@@ -1,4 +1,5 @@
 import argparse
+import logging
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -8,10 +9,24 @@ from sqlalchemy import or_
 from trueskill import Rating, rate
 from typing_extensions import Literal
 
-from discord_bots.log import define_logger
 from discord_bots.models import Player, Session, QueueRegion, PlayerRegionTrueskill, FinishedGame, FinishedGamePlayer
 
-log = define_logger(__name__)
+level = logging.INFO
+
+
+def define_logger(name="app"):
+    log = logging.getLogger(name)
+    log.propagate = False
+    log.setLevel(level)
+    formatter = logging.Formatter("%(asctime)s [%(levelname)s:%(filename)s:%(lineno)s] %(message)s")
+    console_logger = logging.StreamHandler()
+    console_logger.setLevel(level)
+    console_logger.setFormatter(formatter)
+    log.addHandler(console_logger)
+    return log
+
+
+log = define_logger('soft_reset')
 
 OutcomeType = Literal["team1", "team2", "tie"]
 default_rating = Rating()
