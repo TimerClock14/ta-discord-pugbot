@@ -249,7 +249,7 @@ def main() -> None:
     target_region = input_args["target_region"]
     src_queues = input_args["src_queues"] if input_args["src_queues"] is not None else []
     src_regions = input_args["src_regions"] if input_args["src_regions"] is not None else []
-    dry_run = False if input_args["store"].lower() == "false" else True
+    dry_run = False if input_args["store"].lower() == "true" else True
     from_date = parse_date(input_args["from"]) if input_args["from"] is not None else datetime(1990, 1, 1)
 
     do_soft_reset(
